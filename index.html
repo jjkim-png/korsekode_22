@@ -229,307 +229,64 @@
       </table>
     </div>
   </section>
-  <!-- 분석 / 요약 -->
-  <section id="analyze">
-    <h2>분석 / 요약</h2>
-
-    <div class="row">
-      <div>
-        <label>Filter</label>
-        <select id="ddFilter">
-          <option value="all">All</option>
-          <option value="practice">Practice</option>
-          <option value="tournament">Tournament</option>
-          <option value="last5">최근 5경기</option>
-          <option value="last10">최근 10경기</option>
-        </select>
-      </div>
-      <div style="align-self:end; text-align:right;">
-        <button class="btn" id="btnRecalc">요약 재계산</button>
-      </div>
-    </div>
-
-    <!-- SG 카드 -->
-    <div class="row3" style="margin-top:8px;">
-      <div class="kcard">
-        <div class="pill">SG OTT</div>
-        <div id="sgOtt" class="mono">0.00</div>
-      </div>
-      <div class="kcard">
-        <div class="pill">SG APP</div>
-        <div id="sgApp" class="mono">0.00</div>
-      </div>
-      <div class="kcard">
-        <div class="pill">SG ARG</div>
-        <div id="sgArg" class="mono">0.00</div>
-      </div>
-    </div>
-    <div class="row" style="margin-top:8px;">
-      <div class="kcard">
-        <div class="pill">SG PUT</div>
-        <div id="sgPut" class="mono">0.00</div>
-      </div>
-      <div class="kcard">
-        <div class="pill">SG TOTAL</div>
-        <div id="sgTotal" class="mono">0.00</div>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top:6px;">
-      <div class="kcard">
-        <div class="pill">FIR / GIR</div>
-        <div class="mono">
-          <span id="firPct">0.0%</span> / <span id="girPct">0.0%</span>
-        </div>
-        <div class="small mono" style="margin-top:6px;">
-          FW(all): <span id="fwAnyPct">0.0%</span> &nbsp;|&nbsp;
-          FW(APP): <span id="fwAppPct">0.0%</span>
-        </div>
-      </div>
-      <div class="kcard">
-        <div class="pill">FIR 위치 분해(LF/CF/RF)</div>
-        <div class="mono">
-          LF: <span id="firLFPct">0.0%</span> &nbsp;|&nbsp;
-          CF: <span id="firCFPct">0.0%</span> &nbsp;|&nbsp;
-          RF: <span id="firRFPct">0.0%</span>
-        </div>
-        <div class="small" style="margin-top:6px;">
-          * 티샷 결과 + 세컨 라이 추정 보강 포함
-        </div>
-      </div>
-    </div>
-
-    <h2 style="margin-top:16px;">아이언(어프로치) 거리별 GIR + FIR (총합/위치별)</h2>
-    <div class="small">거리 버킷 기준: <span id="ironBucketInfo" class="mono">0–50, 50–100, 100–150, 150–200, 200+</span></div>
-    <div style="overflow:auto; margin-top:8px;">
-      <table id="tblIronGIRFIR">
-        <thead>
-          <tr>
-            <th>거리대</th>
-            <th>시도(APP)</th>
-            <th>GIR</th>
-            <th>GIR %</th>
-            <th>FIR(Total)</th>
-            <th>FIR-LF</th>
-            <th>FIR-CF</th>
-            <th>FIR-RF</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <h2 style="margin-top:16px;">클럽/거리별 GIR</h2>
-    <div style="overflow:auto;">
-      <table id="tblGIRClubDist">
-        <thead>
-          <tr>
-            <th>클럽</th><th>거리대</th><th>시도</th><th>성공</th><th>확률 %</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <h2 style="margin-top:16px;">퍼팅 결과 확률</h2>
-    <div style="overflow:auto;">
-      <table id="tblPuttProbs">
-        <thead>
-          <tr>
-            <th>거리대</th><th>시도</th><th>성공</th><th>성공률 %</th><th>short</th><th>long</th><th>low</th><th>high</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <h2 style="margin-top:16px;">퍼팅 라이/브레이크별 성공률</h2>
-    <div class="small">Up/Dw(경사) + LtoR/RtoL(브레이크) 조합</div>
-    <div style="overflow:auto; margin-top:8px;">
-      <table id="tblPuttSlope">
-        <thead>
-          <tr>
-            <th>카테고리</th><th>시도</th><th>성공</th><th>성공률 %</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <h2 style="margin-top:16px;">바람 영향(요약)</h2>
-    <div class="small">* 샷별 입력된 바람 데이터를 바탕으로 APP/ARG/PUT 지표를 분해합니다.</div>
-    <div style="overflow:auto; margin-top:8px;">
-      <table id="tblWindSummary">
-        <thead>
-          <tr>
-            <th>바람</th><th>시도</th><th>SG/샷</th><th>GIR %</th><th>퍼팅성공 %</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <div class="small" id="logAnalyze">-</div>
-  </section>
-
-  <!-- ✅ 스코어카드 -->
-  <section id="scorecard">
-    <div class="score-head" style="display:flex; align-items:center; justify-content:space-between; gap:8px">
-      <h2>스코어카드 (홀 종료 시 자동 갱신)</h2>
-      <div class="small">표시값: <span class="chip ok">FIR</span> <span class="chip ok">GIR</span> <span class="chip">Putts</span></div>
-    </div>
-    <div class="score-grid" style="margin-top:8px; overflow:auto">
-      <table id="tblScore">
-        <thead>
-          <tr>
-            <th>Hole</th>
-            <th>Par</th>
-            <th>Score</th>
-            <th>±</th>
-            <th>FIR</th>
-            <th>GIR</th>
-            <th>Putts</th>
-          </tr>
-        </thead>
-        <tbody id="scoreBody"></tbody>
-      </table>
-    </div>
-    <div class="small" id="logScore">-</div>
-  </section>
-  <!-- Footer -->
-  <div class="sticky-footer">
-    <button class="btn" id="btnSaveLocal">로컬 저장</button>
-    <button class="btn" id="btnRoundComplete">라운드 완료 (크로니컬 열기)</button>
-    <button class="btn ghost" id="btnClearLocal">로컬 초기화</button>
-  </div>
-</div> <!-- /container -->
-
-<!-- ================== SCRIPT ================== -->
 <script>
-(function(){
-  // 데이터 저장소
-  let rounds=[], shots=[];
-  let currentRoundId=null;
+// ─────────────── 허용 Player ID 체크 ───────────────
+const ALLOWED_PLAYERS = new Set(["224252","224224","224073"]);
+function guardAllowed(pidRaw){
+  const pid = String(pidRaw||"").trim();
+  if (!pid) throw new Error("PLAYER_ID_REQUIRED");
+  if (!ALLOWED_PLAYERS.has(pid)) throw new Error("PLAYER_NOT_ALLOWED");
+  return pid;
+}
 
-  // 허용된 Player ID
-  const ALLOWED_PLAYERS=new Set(["224252","224224","224073"]);
+// ─────────────── 크로니컬 연동 ───────────────
+async function handleRoundComplete(){
+  try {
+    const rounds = JSON.parse(localStorage.getItem("tk22_rounds")||"[]");
+    const shots  = JSON.parse(localStorage.getItem("tk22_shots")||"[]");
+    if (!rounds.length) { alert("라운드 데이터가 없습니다."); return; }
 
-  // ─────────────── 유틸 ───────────────
-  function $(sel){return document.querySelector(sel)}
-  function nowId(){return 'id'+Date.now()}
-  function saveLocal(){
-    localStorage.setItem("kdk:rounds",JSON.stringify(rounds));
-    localStorage.setItem("kdk:shots",JSON.stringify(shots));
-  }
-  function loadLocal(){
-    try{
-      rounds=JSON.parse(localStorage.getItem("kdk:rounds")||"[]");
-      shots=JSON.parse(localStorage.getItem("kdk:shots")||"[]");
-    }catch(e){rounds=[]; shots=[];}
-  }
+    const lastRound = rounds[rounds.length-1];
+    const pid = guardAllowed(lastRound.playerId);
 
-  // ─────────────── 라운드 생성 ───────────────
-  function guardAllowed(pidRaw){
-    const pid=String(pidRaw||"").trim();
-    if(!pid){throw new Error("PLAYER_ID_REQUIRED")}
-    if(!ALLOWED_PLAYERS.has(pid)){throw new Error("PLAYER_NOT_ALLOWED")}
-    return pid;
-  }
-
-  function createRound(){
-    let rawPlayer=$('#inpPlayer').value;
-    let pid;
-    try{ pid=guardAllowed(rawPlayer); }
-    catch(err){
-      if(err.message==="PLAYER_NOT_ALLOWED"){alert("허용되지 않은 Player ID 입니다.");return;}
-      if(err.message==="PLAYER_ID_REQUIRED"){alert("Player ID 필요");return;}
-      throw err;
-    }
-    const course=$('#inpCourse').value;
-    const type=$('#ddType').value;
-    const parStr=$('#inpParArray').value.trim()||'4,4,3,4,5,4,3,5,4,4,4,3,4,5,4,3,5,4';
-    const parArray=parStr.split(',').map(s=>Number(s.trim())||4).slice(0,18);
-    while(parArray.length<18) parArray.push(4);
-
-    const round={roundId:nowId(),playerId:pid,date:new Date().toISOString(),course,type,parArray,notes:''};
-    rounds.push(round);
-    currentRoundId=round.roundId;
-    $('#logRound').textContent=`라운드 생성: ${currentRoundId}`;
-    saveLocal();
-  }
-
-  // ─────────────── 샷 추가 ───────────────
-  function addShot(){
-    if(!currentRoundId){alert("라운드 먼저 생성하세요");return;}
-    const s={
-      roundId:currentRoundId,
-      hole:Number($('#ddHole').value),
-      sequence:Number($('#inpSeq').value),
-      phase:$('#ddPhase').value,
-      distance_m:Number($('#inpDistanceM').value)||0,
-      remaining_m:Number($('#inpRemainM').value)||0,
-      club:$('#ddClub').value,
-      aim:$('#ddAim').value,
-      lie:$('#ddLie').value,
-      on_green:($('#ddOnGreen').value==="true"),
-      holed:($('#ddHoled').value==="true"),
-      penalty:Number($('#inpPenalty').value)||0,
-      landing_m:Number($('#inpLandingM').value)||0,
-      landing_to_pin_m:Number($('#inpLandingToPinM').value)||0,
-      pin_pos:$('#ddPinPos').value,
-      break:$('#ddBreak').value,
-      slope:$('#ddSlope').value,
-      miss:$('#ddMiss').value,
-      wind:$('#ddWind').value
+    const payload = {
+      schema_version:"kdk-1.0.0",
+      playerId: pid,
+      rounds, shots
     };
-    shots.push(s);
-    saveLocal();
-    $('#logShot').textContent=`샷 추가: Hole ${s.hole} Seq ${s.sequence}`;
-    renderShots();
-  }
-
-  function renderShots(){
-    const tb=$('#tblShots tbody');
-    tb.innerHTML='';
-    shots.filter(s=>s.roundId===currentRoundId).forEach(s=>{
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${s.hole}</td><td>${s.sequence}</td><td>${s.phase}</td>
-      <td>${s.distance_m}</td><td>${s.remaining_m}</td><td>${s.club}</td>
-      <td>${s.aim}</td><td>${s.lie}</td><td>${s.on_green}</td>
-      <td>${s.holed}</td><td>${s.penalty}</td><td>${s.wind}</td>`;
-      tb.appendChild(tr);
-    });
-  }
-
-  // ─────────────── 크로니컬 연동 ───────────────
-  async function handleRoundComplete(){
-    if(!currentRoundId){alert("라운드가 없습니다");return;}
-    const curr=rounds.find(r=>r.roundId===currentRoundId);
-    try{
-      const pid=guardAllowed(curr.playerId);
-      const payload={schema_version:"kdk-1.0.0",playerId:pid,rounds,shots};
-      localStorage.setItem("kdk:lastExport",JSON.stringify(payload));
-      const KHR="https://jjkim-png.github.io/khroniclev3/?autoload=1";
-      window.open(KHR,"_blank");
-    }catch(err){
-      if(err.message==="PLAYER_NOT_ALLOWED") alert("허용되지 않은 Player ID");
-      else alert("오류 발생");
+    localStorage.setItem("kdk:lastExport", JSON.stringify(payload));
+    window.open("https://jjkim-png.github.io/khroniclev3/?autoload=1","_blank");
+  } catch(err){
+    if(err.message==="PLAYER_NOT_ALLOWED"){
+      alert("허용되지 않은 Player ID 입니다. (224252/224224/224073)");
+    } else if(err.message==="PLAYER_ID_REQUIRED"){
+      alert("Player ID를 입력하세요.");
+    } else {
+      console.error(err);
+      alert("라운드 완료 처리 중 오류가 발생했습니다.");
     }
   }
+}
 
-  // ─────────────── 이벤트 바인딩 ───────────────
-  function init(){
-    loadLocal();
-    document.getElementById('btnCreateRound').onclick=createRound;
-    document.getElementById('btnAddShot').onclick=addShot;
-    document.getElementById('btnRoundComplete').onclick=handleRoundComplete;
-    document.getElementById('btnSaveLocal').onclick=saveLocal;
-    document.getElementById('btnClearLocal').onclick=function(){
-      localStorage.clear(); rounds=[]; shots=[]; alert("초기화 완료");
-    };
+// ─────────────── 버튼 가드/바인딩 ───────────────
+window.addEventListener("DOMContentLoaded", () => {
+  // 라운드 생성 버튼 보호(원본 createRound 호출 전 차단 — 비침투)
+  const btnCreate = document.getElementById("btnCreateRound");
+  if (btnCreate) {
+    btnCreate.addEventListener("click",(e)=>{
+      const pidInput = (document.getElementById("inpPlayer")?.value)||"";
+      try { guardAllowed(pidInput); }
+      catch(err){
+        e.preventDefault(); e.stopPropagation();
+        alert("허용되지 않은 Player ID 입니다. (224252/224224/224073)");
+      }
+    }, true); // capture: 원본 리스너보다 먼저 실행
   }
-  init();
-})();
+
+  // 라운드 완료 → 크로니컬 전송
+  const btnDone = document.getElementById("btnRoundComplete");
+  if (btnDone) btnDone.addEventListener("click", handleRoundComplete);
+});
 </script>
 </body>
 </html>
