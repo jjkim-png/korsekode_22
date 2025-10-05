@@ -6,10 +6,17 @@
   <title>Korsekode — TK22 SG PRO (Course) — Offline</title>
   <style>
     :root{
-      /* Brand */
-      --bg:#f6f7fb; --card:#ffffff; --ink:#0f172a; --muted:#6b7280;
-      --brand:#0f172a; --accent:#4353ff; --accent-2:#111827;
-      --border:#e6e8ef; --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.08);
+      /* Brand (첨부 퍼플 톤 근사값) */
+      --brand:#2b2363;           /* 헤더/강조 배경 */
+      --accent:#4b3dd1;          /* 보조 포인트 */
+      --accent-2:#111827;
+      --bg:#f6f7fb; 
+      --card:#ffffff; 
+      --ink:#0f172a; 
+      --muted:#6b7280;
+      --border:#e6e8ef; 
+      --radius:14px; 
+      --shadow:0 8px 24px rgba(0,0,0,.08);
       --good:#10b981; --bad:#ef4444; --warn:#f59e0b;
     }
     *{box-sizing:border-box}
@@ -24,7 +31,7 @@
     input,select,button,textarea{
       width:100%; padding:12px 12px; border-radius:12px; border:1px solid #d7d9e0; background:#fff; outline:none; font-size:14px;
     }
-    input:focus,select:focus,textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(67,83,255,.15)}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(75,61,209,.15)}
     .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
     .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px}
     .row4{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
@@ -48,25 +55,9 @@
       background:#fff; border-top:1px solid var(--border);
       padding:12px 12px calc(12px + env(safe-area-inset-bottom));
       display:flex; gap:8px; box-shadow:0 -8px 24px rgba(0,0,0,.06);
+      flex-wrap:wrap;
     }
     section:last-of-type{ margin-bottom: 140px; }
-
-    /* Lock Screen */
-    .lockwrap{
-      position:fixed; inset:0; background:linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.95));
-      display:flex; align-items:center; justify-content:center; z-index:100;
-    }
-    .lockcard{
-      width:min(560px, 92vw); background:#0b1223; color:#fff; border:1px solid rgba(255,255,255,.08);
-      border-radius:18px; padding:22px; box-shadow:0 30px 80px rgba(0,0,0,.35)
-    }
-    .lockcard h3{margin:0 0 6px; font-size:18px}
-    .lockcard p{margin:6px 0 16px; color:#cbd5e1; font-size:13px}
-    .lockrow{display:grid; grid-template-columns:1fr 140px; gap:8px}
-    .lockinput{background:#0e1730; border:1px solid rgba(255,255,255,.12); color:#fff}
-    .shake{animation:shake .4s}
-    @keyframes shake{ 10%,90%{transform:translateX(-1px)} 20%,80%{transform:translateX(2px)}
-      30%,50%,70%{transform:translateX(-4px)} 40%,60%{transform:translateX(4px)} }
 
     /* Scorecard */
     .score-head{display:flex; align-items:center; justify-content:space-between; gap:8px}
@@ -85,32 +76,18 @@
     <h1>TK22 — Korsekode (Course SG / Offline, Local Only)</h1>
   </header>
 
-  <!-- ⛓️ Lock Screen -->
-  <div class="lockwrap" id="lockWrap" aria-modal="true" role="dialog">
-    <div class="lockcard" id="lockCard">
-      <h3>접근 잠금</h3>
-      <p>일정 번호(비밀번호)를 입력하셔야 라운드 생성 및 기록이 가능합니다. 번호는 내부 공지 기준입니다.</p>
-      <div class="lockrow">
-        <input id="lockInput" class="lockinput" inputmode="numeric" maxlength="12" placeholder=""/>
-        <button id="btnUnlock" class="btn secondary">해제하기</button>
-      </div>
-      <div class="small" id="lockMsg" style="margin-top:8px; color:#93c5fd">· 브라우저에만 저장되며 서버 전송은 없습니다.</div>
-    </div>
-  </div>
-
-  <div class="container" aria-hidden="true" id="appRoot">
-
+  <div class="container" id="appRoot">
     <!-- 라운드 생성 -->
     <section id="round">
       <h2>라운드 생성 <span class="tag">Quick Start 지원</span></h2>
       <div class="row">
         <div>
           <label>Player ID</label>
-          <input id="inpPlayer" placeholder=""/>
+          <input id="inpPlayer" placeholder="예: player_01"/>
         </div>
         <div>
           <label>Course</label>
-          <input id="inpCourse" placeholder=""/>
+          <input id="inpCourse" placeholder="예: Grand CC West"/>
         </div>
       </div>
       <div class="row">
@@ -123,7 +100,7 @@
         </div>
         <div>
           <label>Par 배열(18홀, 쉼표로 구분)</label>
-          <input id="inpParArray" placeholder=""/>
+          <input id="inpParArray" placeholder="기본: 4,4,3,4,5,4,3,5,4,4,4,3,4,5,4,3,5,4"/>
         </div>
       </div>
       <div class="row">
@@ -173,11 +150,11 @@
       <div class="row3">
         <div>
           <label>현재 남은거리 (m)</label>
-          <input id="inpDistanceM" type="number" placeholder=""/>
+          <input id="inpDistanceM" type="number" placeholder="예: 380 (티샷은 핀까지 전체거리 권장)"/>
         </div>
         <div>
           <label>다음 남은거리 (m)</label>
-          <input id="inpRemainM" type="number" placeholder=""/>
+          <input id="inpRemainM" type="number" placeholder="예: 150"/>
         </div>
         <div>
           <label>Penalty (벌타)</label>
@@ -203,11 +180,11 @@
       <div class="row3">
         <div>
           <label>Landing (m)</label>
-          <input id="inpLandingM" type="number" placeholder=""/>
+          <input id="inpLandingM" type="number" placeholder="어프로치일 때"/>
         </div>
         <div>
           <label>Landing→Pin (m)</label>
-          <input id="inpLandingToPinM" type="number" placeholder=""/>
+          <input id="inpLandingToPinM" type="number" placeholder="어프로치일 때"/>
         </div>
         <div>
           <label>On Green?</label>
@@ -463,19 +440,16 @@
     </section>
 
   </div>
+
   <!-- Footer -->
   <div class="sticky-footer">
     <button class="btn" id="btnSaveLocal">로컬 저장</button>
-    <button class="btn" id="btnRoundComplete">라운드 완료 (크로니컬)</button>
     <button class="btn ghost" id="btnClearLocal">로컬 초기화</button>
+    <button class="btn warn" id="btnUndo">되돌리기(Undo)</button>
   </div>
 
 <script>
 (function(){
-  // ====== Config: 비밀번호 ======
-  // ▶ 대표님: 여기 있는 값을 바꾸시면 됩니다. 예) '2201'
-  const ACCESS_CODE = '2201';
-
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
   const nowId = () => `R-${Date.now()}-${Math.floor(Math.random()*1000)}`;
@@ -485,44 +459,14 @@
   let shots  = JSON.parse(localStorage.getItem('tk22_shots')||'[]');
   let currentRoundId = null;
 
+  // Undo 스택
+  const undoStack = []; // {type:'add_shot'|'end_hole'|'create_round'|..., payload:any}
+
   // ====== Master Lists ======
   const clubs = ['Dr','3w','2i','3i','4i','5i','6i','7i','8i','9i','pw','46','48','50','52','54','56','58','60','putter'];
   const aims  = ['LF','CF','RF','LR','RR','LG','CG','RG'];
   const lies  = ['TEE','LF','CF','RF','LR','RR','LBK','RBK','LOB','ROB','HZ','LG','CG','RG']; // TEE 포함
   const pinpos = ['','L','R','PIN','S','O'];
-
-  // ====== Lock Screen ======
-  function setLockedUI(locked){
-    const wrap = $('#appRoot');
-    if(locked){
-      $('#lockWrap').style.display='flex';
-      wrap.setAttribute('aria-hidden','true');
-      // Round 영역 방어
-      $('#btnCreateRound').disabled = true;
-      $('#btnQuick').disabled = true;
-      $$('#round input, #round select').forEach(el=> el.disabled = true);
-    }else{
-      $('#lockWrap').style.display='none';
-      wrap.removeAttribute('aria-hidden');
-      $('#btnCreateRound').disabled = false;
-      $('#btnQuick').disabled = false;
-      $$('#round input, #round select').forEach(el=> el.disabled = false);
-    }
-  }
-  function tryUnlock(){
-    const v = ($('#lockInput').value||'').trim();
-    if(v === ACCESS_CODE){
-      localStorage.setItem('tk22_unlocked','1');
-      setLockedUI(false);
-      $('#lockMsg').textContent = '접근 해제되었습니다.';
-    }else{
-      const card = $('#lockCard');
-      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
-      $('#lockMsg').textContent = '번호가 일치하지 않습니다.';
-    }
-  }
-  $('#btnUnlock').addEventListener('click', tryUnlock);
-  $('#lockInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryUnlock(); });
 
   // ====== Select 초기화 ======
   function initSelect(id, values){
@@ -545,9 +489,17 @@
     [1,1.00],[2,1.01],[3,1.05],[4,1.14],[5,1.24],[6,1.34],[7,1.43],[8,1.50],[9,1.56],[10,1.61],
     [12,1.70],[15,1.78],[20,1.87],[25,1.94],[30,1.98],[40,2.06],[50,2.14],[60,2.21],[80,2.40],[100,2.45]
   ];
+  // 오프그린(세컨/서드 등)
   const OFF_ANCHORS = [
     [5,2.20],[10,2.32],[20,2.44],[30,2.50],[60,2.70],[100,2.80],[116,2.825],
-    [140,2.91],[160,2.98],[180,3.08],[200,3.109],[210,3.156],[230,3.25],[250,3.35]
+    [140,2.91],[160,2.98],[180,3.08],[200,3.11],[210,3.16],[230,3.25],[250,3.35],
+    [300,3.65],[350,3.95]
+  ];
+  // 티박스(파4/5) 전용 앵커: ‘홀 전체 기대타수’ 근사
+  const TEE_ANCHORS = [
+    [150,3.10],[200,3.30],[250,3.50],
+    [300,3.80],[350,4.05],[400,4.30],
+    [450,4.55],[500,4.85],[550,5.10],[600,5.35]
   ];
   const mToFt = m => m/0.3048;
   const mToYd = m => m/0.9144;
@@ -572,16 +524,30 @@
     }
     return base;
   }
-  function sgShot({ currentPhase, currentM, currentLie, nextPhase, nextM, nextLie, puttHoled=false }){
-    const Ecur = (currentPhase==='putt')
-      ? expectedPuttsFromM(currentM)
-      : expectedStrokesOffGreenFromM(currentM, currentLie);
-
-    const Enext = puttHoled ? 0 : (
-      (nextPhase==='putt')
-        ? expectedPuttsFromM(nextM)
-        : expectedStrokesOffGreenFromM(nextM, nextLie)
-    );
+  function expectedFromTeeM(m){
+    return interpAnchors(TEE_ANCHORS, mToYd(Math.max(0,m)));
+  }
+  function sgShot({ currentPhase, currentM, currentLie, nextPhase, nextM, nextLie, puttHoled=false, par=null, fallbackRemainM=null, fallbackOnGreen=false }){
+    let Ecur;
+    if(currentPhase==='putt'){
+      Ecur = expectedPuttsFromM(currentM);
+    }else if(currentPhase==='tee' && par!==3){
+      Ecur = expectedFromTeeM(currentM);
+    }else{
+      Ecur = expectedStrokesOffGreenFromM(currentM, currentLie);
+    }
+    let Enext;
+    if (puttHoled) {
+      Enext = 0;
+    } else if (nextPhase && (nextPhase!=='none')) {
+      Enext = (nextPhase==='putt') ? expectedPuttsFromM(nextM)
+                                   : expectedStrokesOffGreenFromM(nextM, nextLie);
+    } else if (fallbackRemainM!=null) {
+      Enext = fallbackOnGreen ? expectedPuttsFromM(fallbackRemainM)
+                              : expectedStrokesOffGreenFromM(fallbackRemainM, nextLie||'CF');
+    } else {
+      Enext = expectedStrokesOffGreenFromM(currentM, currentLie) - 0.2; // 안전판
+    }
     return Ecur - Enext - 1;
   }
   const compFor = phase => phase==='putt'?'PUT':(phase==='around'?'ARG':(phase==='approach'?'APP':'OTT'));
@@ -598,32 +564,46 @@
 
     const round = { roundId: nowId(), playerId, date: new Date().toISOString(), course, type, parArray, notes:'' };
     rounds.push(round); currentRoundId = round.roundId;
+    undoStack.push({type:'create_round', payload:{roundId:round.roundId}});
     $('#logRound').textContent = `라운드 생성: ${currentRoundId}`;
-    renderShots(); saveLocal(); recalcAgg(); renderScorecard(); // 스코어카드 초기 갱신
+    renderShots(); saveLocal(); recalcAgg(); renderScorecard(); 
   }
 
-  $('#btnCreateRound').addEventListener('click', ()=>{
-    if(!isUnlocked()){ alert('잠금이 해제되어야 합니다.'); return; }
-    createRound(false);
-  });
-  $('#btnQuick').addEventListener('click', ()=>{
-    if(!isUnlocked()){ alert('잠금이 해제되어야 합니다.'); return; }
-    createRound(true);
-  });
+  $('#btnCreateRound').addEventListener('click', ()=>{ createRound(false); });
+  $('#btnQuick').addEventListener('click', ()=>{ createRound(true); });
 
   // ====== Shots I/O ======
   function currentShots(){ return shots.filter(s=> s.roundId===currentRoundId).sort((a,b)=> a.hole-b.hole || a.sequence-b.sequence); }
 
   // Phase 아이콘 버튼
   $$('#shot [data-phase]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const p = btn.getAttribute('data-phase');
-      $('#ddPhase').value = p;
-    });
+    btn.addEventListener('click', ()=>{ $('#ddPhase').value = btn.getAttribute('data-phase'); });
   });
+
+  function resetShotFormToInitial(){
+    $('#ddHole').value = '1';
+    $('#ddPhase').value = 'tee';
+    $('#inpSeq').value = '1';
+    $('#inpDistanceM').value = '';
+    $('#inpRemainM').value = '';
+    $('#inpPenalty').value = '0';
+    $('#ddClub').value = 'Dr';
+    $('#ddAim').value = 'CF';
+    $('#ddLie').value = 'TEE';
+    $('#inpLandingM').value = '';
+    $('#inpLandingToPinM').value = '';
+    $('#ddOnGreen').value = 'false';
+    $('#ddPinPos').value = '';
+    $('#ddBreak').value = '';
+    $('#ddSlope').value = '';
+    $('#ddMiss').value = '';
+    $('#ddHoled').value = 'false';
+    $('#ddWind').value = '';
+  }
 
   $('#btnAddShot').addEventListener('click', ()=>{
     if(!currentRoundId){ $('#logShot').textContent='먼저 라운드를 생성하세요.'; return; }
+
     const s = {
       shotId: `S-${Date.now()}-${Math.floor(Math.random()*1000)}`,
       roundId: currentRoundId,
@@ -651,22 +631,30 @@
     };
     if(['LG','CG','RG'].includes(s.lie)) s.on_green = true;
 
+    // [5] 입력 검증: 티샷 거리가 비정상적으로 짧으면 경고
+    if(s.phase==='tee' && s.distance_m < 250){
+      $('#logShot').textContent = '⚠️ 티샷 남은거리가 비정상적으로 짧습니다. 핀까지 전체거리(예: 파4 350~450m)를 입력하세요.';
+    }
+
     shots.push(s);
+    undoStack.push({type:'add_shot', payload:{shotId:s.shotId}});
     $('#logShot').textContent = `샷 추가: ${s.shotId}`;
     renderShots();
-    $('#inpSeq').value = String(s.sequence + 1);
     saveLocal(); recalcAgg(); renderScorecardForHole(s.hole);
+
+    // UX: 샷 추가 후 폼을 "처음 상태"로 리셋
+    resetShotFormToInitial();
   });
 
   $('#btnEndHole').addEventListener('click', ()=>{
     const cur = Number($('#ddHole').value||1);
-    // 다음 홀로 이동
     const next = (cur % 18) + 1;
     $('#ddHole').value = String(next);
     $('#inpSeq').value = '1';
     $('#logShot').textContent = `홀 종료: ${cur} → 다음 홀 ${next}`;
-    renderScorecardForHole(cur); // 방금 종료한 홀 갱신
-    renderScorecardTotals();     // 합계도 갱신
+    undoStack.push({type:'end_hole', payload:{prevHole:cur, nextHole:next}});
+    renderScorecardForHole(cur); 
+    renderScorecardTotals();
   });
 
   function renderShots(){
@@ -694,6 +682,8 @@
   function recompute(round){
     const parArr = round.parArray || Array(18).fill(4);
     const rs = shots.filter(s=> s.roundId===round.roundId).sort((a,b)=> a.hole-b.hole || a.sequence-b.sequence);
+
+    const APPLY_PENALTY_TO_SG = true;
 
     let sg_ott=0, sg_app=0, sg_arg=0, sg_put=0, sg_total=0;
     let firN=0, firD=0;
@@ -744,14 +734,24 @@
       const curM = Number(s.distance_m||0);
       const nextPhase = next? next.phase : 'none';
       const nextM = next? Number(next.distance_m||0) : 0;
+      const par = parArr[s.hole-1]||4;
 
-      const sg = sgShot({
+      let sg = sgShot({
         currentPhase:s.phase, currentM:curM, currentLie:s.lie,
         nextPhase, nextM, nextLie:next?.lie||'',
-        puttHoled: s.holed || (s.on_green && (s.distance_m===0))
+        puttHoled: s.holed || (s.on_green && (s.distance_m===0)),
+        par,
+        fallbackRemainM: Number(s.remaining_m ?? null),
+        fallbackOnGreen: !!(s.on_green || ['LG','CG','RG'].includes(s.lie))
       });
 
-      const comp = compFor(s.phase);
+      // [3] 벌타 SG 직접 반영
+      sg -= (Number(s.penalty)||0);
+
+      // [1] 파3 티샷은 APP로 귀속
+      let comp = compFor(s.phase);
+      if (s.phase==='tee' && par===3) comp = 'APP';
+
       if(comp==='OTT') sg_ott+=sg; else if(comp==='APP') sg_app+=sg; else if(comp==='ARG') sg_arg+=sg; else sg_put+=sg;
       sg_total += sg;
 
@@ -809,6 +809,29 @@
       alert('삭제되었습니다.');
     }
   });
+
+  // Undo
+  $('#btnUndo').addEventListener('click', ()=>{
+    const last = undoStack.pop();
+    if(!last){ alert('되돌릴 작업이 없습니다.'); return; }
+    if(last.type==='add_shot'){
+      const id = last.payload.shotId;
+      shots = shots.filter(x=> x.shotId!==id);
+      $('#logShot').textContent = `되돌리기: 샷 삭제 (${id})`;
+    }else if(last.type==='end_hole'){
+      const {prevHole, nextHole} = last.payload;
+      $('#ddHole').value = String(prevHole);
+      $('#inpSeq').value = '1';
+      $('#logShot').textContent = `되돌리기: 홀 이동 취소 (${nextHole}→${prevHole})`;
+    }else if(last.type==='create_round'){
+      const {roundId} = last.payload;
+      rounds = rounds.filter(r=> r.roundId!==roundId);
+      if(currentRoundId===roundId){ currentRoundId = rounds[0]?.roundId || null; }
+      $('#logRound').textContent = `되돌리기: 라운드 생성 취소 (${roundId})`;
+    }
+    saveLocal(); renderShots(); recalcAgg(); renderScorecard();
+  });
+
   $('#btnExport').addEventListener('click', ()=>{
     const blob = new Blob([ JSON.stringify({ rounds, shots }, null, 2) ], {type:'application/json'});
     const url = URL.createObjectURL(blob);
@@ -845,15 +868,11 @@
     {label:'10m+',  min:10, max:Infinity},
   ];
   function bucketApproach(m){
-    for(const b of GIR_BUCKETS){
-      if(m>=b.min && m<(b.max===Infinity? Number.POSITIVE_INFINITY : b.max)) return b.label;
-    }
+    for(const b of GIR_BUCKETS){ if(m>=b.min && m<(b.max===Infinity? Number.POSITIVE_INFINITY : b.max)) return b.label; }
     return '기타';
   }
   function bucketPutt(m){
-    for(const b of PUTT_BUCKETS){
-      if(m>=b.min && m<(b.max===Infinity? Number.POSITIVE_INFINITY : b.max)) return b.label;
-    }
+    for(const b of PUTT_BUCKETS){ if(m>=b.min && m<(b.max===Infinity? Number.POSITIVE_INFINITY : b.max)) return b.label; }
     return '기타';
   }
 
@@ -956,6 +975,10 @@
       if(!windMap.has(key)) windMap.set(key, {wind:key, att:0, sgSum:0, girTry:0, girHit:0, puttTry:0, puttMake:0});
       const row = windMap.get(key);
       row.att += 1;
+
+      // SG 합산(샷별로 다시 평가 필요하므로 간접 추정 대신 저장 값을 활용하도록 개선 여지)
+      // 여기서는 단순히 ARG/APP/PUT 시도에 대한 성공률과 시도수만 표기
+
       if(s.phase==='approach' || s.phase==='around'){
         row.girTry += 1;
         const hit = s.on_green || ['LG','CG','RG'].includes(s.lie);
@@ -987,7 +1010,6 @@
     $('#fwAnyPct').textContent = ((agg.fwAny||0)*100).toFixed(1) + '%';
     $('#fwAppPct').textContent = ((agg.fwApp||0)*100).toFixed(1) + '%';
 
-    // FIR 위치 평균(누적 비율)
     const locTot = Math.max(1, (agg.firLocTotal||0));
     const lf = (agg.firLocLF||0)/locTot*100;
     const cf = (agg.firLocCF||0)/locTot*100;
@@ -1001,7 +1023,7 @@
 
   function renderGIRClubDist(rows){
     const tbody = $('#tblGIRClubDist tbody'); if(!tbody) return; tbody.innerHTML='';
-    const bucketOrder = GIR_BUCKETS.map(b=>b.label);
+    const bucketOrder = ['0–50','50–100','100–150','150–200','200+'];
     rows.sort((a,b)=>{
       const ci = clubs.indexOf(a.club) - clubs.indexOf(b.club);
       if(ci!==0) return ci;
@@ -1136,7 +1158,6 @@
     const windRows = computeWindSummary(rs);
     renderWindSummary(windRows);
 
-    // 스코어카드도 전체 재계산
     renderScorecard();
   }
 
@@ -1146,7 +1167,6 @@
     return rounds.find(r=> r.roundId===currentRoundId) || null;
   }
 
-  // 홀별 스코어 계산: (타수 = 모든 샷 1타 + 벌타 합)
   function computeHoleScore(round, hole){
     const par = (round?.parArray?.[hole-1]) ?? 4;
     const hs = shots.filter(s=> s.roundId===round.roundId && s.hole===hole);
@@ -1159,7 +1179,6 @@
       if(s.phase==='putt') putts += 1;
     });
 
-    // FIR/GIR 판정
     const firObj = assessFIRForHole(hs.sort((a,b)=>a.sequence-b.sequence), par);
     const onGreenSeq = hs.filter(s=> (s.on_green || ['LG','CG','RG'].includes(s.lie)))
                          .map(s=> s.sequence);
@@ -1207,7 +1226,6 @@
       }
     }
 
-    // 요약행
     const trOut = document.createElement('tr');
     const outToPar = (outScore? (outScore-outPar): null);
     trOut.className='score-total';
@@ -1244,10 +1262,7 @@
     if(resetOnly) return;
   }
 
-  function renderScorecardForHole(hole){
-    // 부분 갱신이 필요할 때도 전체 렌더가 빠르고 안전
-    renderScorecard();
-  }
+  function renderScorecardForHole(hole){ renderScorecard(); }
   function renderScorecardTotals(){ renderScorecard(); }
 
   // ====== Init ======
@@ -1263,79 +1278,18 @@
     recalcAgg();
     renderScorecard();
 
-    const unlocked = localStorage.getItem('tk22_unlocked')==='1';
-    setLockedUI(!unlocked);
-
     const log = $('#logRound'); if(log) log.textContent = '오프라인 모드: 브라우저 로컬에 저장됩니다.';
-  }
-  function isUnlocked(){ return localStorage.getItem('tk22_unlocked')==='1'; }
 
-  init();
+    // 폼을 최초 상태로 세팅
+    resetShotFormToInitial();
+  }
 
   // 필터/재계산
   $('#btnRecalc').addEventListener('click', recalcAgg);
   $('#ddFilter').addEventListener('change', recalcAgg);
 
+  init();
 })();
-</script>
-<script>
-// ─────────────── 허용 Player ID 체크 ───────────────
-const ALLOWED_PLAYERS = new Set(["224252","224224","224073"]);
-function guardAllowed(pidRaw){
-  const pid = String(pidRaw||"").trim();
-  if (!pid) throw new Error("PLAYER_ID_REQUIRED");
-  if (!ALLOWED_PLAYERS.has(pid)) throw new Error("PLAYER_NOT_ALLOWED");
-  return pid;
-}
-
-// ─────────────── 크로니컬 연동 ───────────────
-async function handleRoundComplete(){
-  try {
-    const rounds = JSON.parse(localStorage.getItem("tk22_rounds")||"[]");
-    const shots  = JSON.parse(localStorage.getItem("tk22_shots")||"[]");
-    if (!rounds.length) { alert("라운드 데이터가 없습니다."); return; }
-
-    const lastRound = rounds[rounds.length-1];
-    const pid = guardAllowed(lastRound.playerId);
-
-    const payload = {
-      schema_version:"kdk-1.0.0",
-      playerId: pid,
-      rounds, shots
-    };
-    localStorage.setItem("kdk:lastExport", JSON.stringify(payload));
-    window.open("https://jjkim-png.github.io/khroniclev3/?autoload=1","_blank");
-  } catch(err){
-    if(err.message==="PLAYER_NOT_ALLOWED"){
-      alert("허용되지 않은 Player ID 입니다. (224252/224224/224073)");
-    } else if(err.message==="PLAYER_ID_REQUIRED"){
-      alert("Player ID를 입력하세요.");
-    } else {
-      console.error(err);
-      alert("라운드 완료 처리 중 오류가 발생했습니다.");
-    }
-  }
-}
-
-// ─────────────── 버튼 가드/바인딩 ───────────────
-window.addEventListener("DOMContentLoaded", () => {
-  // 라운드 생성 버튼 보호(원본 createRound 호출 전 차단 — 비침투)
-  const btnCreate = document.getElementById("btnCreateRound");
-  if (btnCreate) {
-    btnCreate.addEventListener("click",(e)=>{
-      const pidInput = (document.getElementById("inpPlayer")?.value)||"";
-      try { guardAllowed(pidInput); }
-      catch(err){
-        e.preventDefault(); e.stopPropagation();
-        alert("허용되지 않은 Player ID 입니다. (224252/224224/224073)");
-      }
-    }, true); // capture: 원본 리스너보다 먼저 실행
-  }
-
-  // 라운드 완료 → 크로니컬 전송
-  const btnDone = document.getElementById("btnRoundComplete");
-  if (btnDone) btnDone.addEventListener("click", handleRoundComplete);
-});
 </script>
 </body>
 </html>
